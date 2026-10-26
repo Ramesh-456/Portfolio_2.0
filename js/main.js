@@ -1,5 +1,50 @@
 const data = RESUME_DATA;
 
+(function updateExperienceDynamically() {
+  const startDate = new Date(2023, 1, 1); // Feb 2023
+  const now = new Date();
+
+  let years = now.getFullYear() - startDate.getFullYear();
+  let months = now.getMonth() - startDate.getMonth();
+  let days = now.getDate() - startDate.getDate();
+
+  if (days < 0) {
+    months -= 1;
+    const prevMonthLastDay = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    days += prevMonthLastDay;
+  }
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  // 15+ days reach aana adhuku next month ah round-up pannudhu
+  if (days >= 15) {
+    months += 1;
+    if (months === 12) {
+      months = 0;
+      years += 1;
+    }
+  }
+
+  const experienceText = `${years} Years ${months} Months`;
+
+  document.title = `Ramesh S | Full Stack Developer – Angular & Spring Boot | ${experienceText} Experience`;
+
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) {
+    metaDescription.setAttribute(
+      'content',
+      `Portfolio of Ramesh S, a full stack developer with ${experienceText.toLowerCase()} of experience building secure, scalable finance-grade web platforms using Angular, Spring Boot, AWS, and PostgreSQL. Explore projects, experience, and core engineering strengths.`
+    );
+  }
+
+  const eyebrow = document.querySelector('.hero-section .eyebrow');
+  if (eyebrow) {
+    eyebrow.textContent = `FULL STACK DEVELOPER · ${experienceText.toUpperCase()} EXPERIENCE`;
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
