@@ -1,10 +1,34 @@
+// Career start date used to auto-calculate years of experience on every load
+const EXPERIENCE_START_DATE = new Date(2023, 1, 1); // Feb 2023
+
+function getExperienceInfo(startDate) {
+  const now = new Date();
+
+  let years = now.getFullYear() - startDate.getFullYear();
+  let months = now.getMonth() - startDate.getMonth();
+
+  if (now.getDate() < startDate.getDate()) {
+    months -= 1;
+  }
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  const decimalYears = Math.round((years + months / 12) * 10) / 10;
+
+  return { years, months, decimalYears };
+}
+
+const experienceInfo = getExperienceInfo(EXPERIENCE_START_DATE);
+
 const RESUME_DATA = {
   personal: {
     name: 'Ramesh S',
     title: 'Full Stack Developer',
     phone: '+91 6379159249',
     email: 'rameshsgbm456@gmail.com',
-    experience: '3.6 Years',
+    experience: `${experienceInfo.decimalYears} Years`,
     location: 'Chennai, India'
   },
   hero: {
@@ -15,7 +39,7 @@ const RESUME_DATA = {
     summary:
       'Full stack developer with hands-on delivery across Angular frontend development and Java Spring Boot backend services, building secure finance, trading, and digital lending platforms.',
     metrics: [
-      { value: '3.6+', label: 'Years building production apps' },
+      { value: `${experienceInfo.decimalYears}+`, label: 'Years building production apps' },
       { value: '2', label: 'Finance platforms delivered' },
       { value: 'Angular + Java', label: 'Balanced frontend and backend ownership' }
     ]
